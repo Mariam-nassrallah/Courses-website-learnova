@@ -22,10 +22,11 @@
         <ul class="navbar-nav mx-auto">
             <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
             <li class="nav-item"><a class="nav-link active" href="courses.html">Courses</a></li>
+            <li class="nav-item"><a class="nav-link" href="registration.html">Register</a></li>
             <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
             <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
         </ul>
-        <a href="courses.html" class="btn btn-glow btn-sm px-3">Start Learning <i class="bi bi-arrow-right"></i></a>
+        <a href="registration.html" class="btn btn-glow btn-sm px-3">Start Learning <i class="bi bi-arrow-right"></i></a>
       </div>
     </nav>
   </div>
@@ -142,6 +143,7 @@
               </div>
               <p class="small text-warning mt-1"><i class="bi bi-alarm"></i> Offer ends in 2 days</p>
               <button class="btn btn-glow w-100 mb-2" data-bs-toggle="modal" data-bs-target="#enrollModal">Enroll now</button>
+              <a href="registration.html" class="btn btn-ghost w-100 mb-2" id="cd-register"><i class="bi bi-pencil-square"></i> Register for this course</a>
               <button class="btn btn-ghost w-100 mb-4"><i class="bi bi-heart"></i> Wishlist</button>
               <ul class="list-unstyled small text-muted-c mb-0">
                 <li class="mb-2" id="cd-hours"><i class="bi bi-camera-video me-2"></i>40 hours of video</li>
@@ -223,10 +225,12 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <form>
-            <input type="text" class="form-control mb-3" placeholder="Full name" required>
-            <input type="email" class="form-control mb-3" placeholder="Email" required>
-            <input type="tel" class="form-control mb-3" placeholder="Phone">
+          <!-- Sends the course + details to the registration page, which pre-fills the form -->
+          <form action="registration.html" method="get" data-no-auto>
+            <input type="hidden" name="course" id="cd-course-id" value="web-dev">
+            <input type="text" name="name" class="form-control mb-3" placeholder="Full name" required>
+            <input type="email" name="email" class="form-control mb-3" placeholder="Email" required>
+            <input type="tel" name="phone" class="form-control mb-3" placeholder="Phone">
             <button type="submit" class="btn btn-glow w-100">Confirm enrollment</button>
           </form>
         </div>
@@ -253,6 +257,7 @@
           <ul class="list-unstyled">
             <li class="mb-2"><a href="index.html">Home</a></li>
             <li class="mb-2"><a href="courses.html">Courses</a></li>
+            <li class="mb-2"><a href="registration.html">Register</a></li>
             <li class="mb-2"><a href="about.html">About</a></li>
             <li class="mb-2"><a href="contact.html">Contact</a></li>
           </ul>

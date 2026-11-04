@@ -205,6 +205,8 @@ const COURSES = {
     <span class="pill ms-auto">-${off}%</span>`;
   $("cd-hours").innerHTML = `<i class="bi bi-camera-video me-2"></i>${c.hours} hours of video`;
   $("cd-modal-title").innerHTML = `Join <span class="grad-text">${c.title}</span>`;
+  $("cd-course-id").value = key; // registration.html adds this course to the selection
+  $("cd-register").href = `registration.html?course=${key}`;
 
   // "You might also like": same category first, then others
   const others = Object.keys(COURSES).filter((k) => k !== key);

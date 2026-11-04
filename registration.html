@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Learnova</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/registration.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ===== Floating Navbar ===== -->
+  <div class="nav-wrap">
+    <nav class="navbar navbar-expand-lg glass container">
+      <a class="navbar-brand" href="index.html"><span class="logo-mark"><i class="bi bi-stars"></i></span>Learnova</a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav mx-auto">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="courses.html">Courses</a></li>
+            <li class="nav-item"><a class="nav-link active" href="registration.html">Register</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+        <button class="btn btn-glow btn-sm px-3 cart-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartPanel">
+          <i class="bi bi-bag"></i> My Selection <span class="badge rounded-pill cart-badge" id="cartCount">0</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ===== Hero with countdown ===== -->
+  <header class="page-header">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="grid-bg"></div>
+    <div class="container z-1 text-center">
+      <span class="pill"><span class="dot"></span> Winter intake is open</span>
+      <h1 class="mt-4">Register for your <span class="grad-text">next course</span></h1>
+      <p class="text-muted-c col-lg-6 mx-auto mt-3">Pick your courses, check your schedule, and save your seat before registration closes.</p>
+
+      <div class="countdown mt-4" id="countdown">
+        <div class="glass cd-box"><span id="cdDays">00</span><small>Days</small></div>
+        <div class="glass cd-box"><span id="cdHours">00</span><small>Hours</small></div>
+        <div class="glass cd-box"><span id="cdMinutes">00</span><small>Minutes</small></div>
+        <div class="glass cd-box"><span id="cdSeconds">00</span><small>Seconds</small></div>
+      </div>
+      <p class="small text-muted-c mt-3 mb-0" id="cdLabel">until registration closes on 1 December 2026</p>
+
+      <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+        <a href="#catalog" class="btn btn-glow">Browse courses <i class="bi bi-arrow-down"></i></a>
+        <a href="#my-registrations" class="btn btn-ghost"><i class="bi bi-card-checklist"></i> My registrations</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Course catalog ===== -->
+  <section class="pt-0 anchor" id="catalog">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-end flex-wrap gap-2 mb-4">
+        <div>
+          <span class="eyebrow">Step 1 &middot; Choose</span>
+          <h2 class="display-6 mt-2 mb-0">Course catalog</h2>
+        </div>
+        <span class="small text-muted-c" id="resultCount">Showing 8 of 8 courses</span>
+      </div>
+
+      <!-- Toolbar: search, level, sort, availability -->
+      <div class="glass p-3 mb-3">
+        <div class="row g-3 align-items-center">
+          <div class="col-lg-5">
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-search"></i></span>
+              <input type="search" id="searchInput" class="form-control" placeholder="Search by course or instructor..." aria-label="Search courses">
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-2">
+            <select id="levelFilter" class="form-select" aria-label="Filter by level">
+              <option value="all">All levels</option>
+              <option value="Beginner">Beginner</option>
+              <option value="Intermediate">Intermediate</option>
+            </select>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <select id="sortSelect" class="form-select" aria-label="Sort courses">
+              <option value="default">Sort: Recommended</option>
+              <option value="price-asc">Price: low to high</option>
+              <option value="price-desc">Price: high to low</option>
+              <option value="seats-desc">Most seats left</option>
+            </select>
+          </div>
+          <div class="col-lg-2">
+            <div class="form-check form-switch mb-0">
+              <input class="form-check-input" type="checkbox" role="switch" id="availableOnly">
+              <label class="form-check-label small" for="availableOnly">Available only</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category buttons (generated from the data) -->
+      <div class="text-center mb-4" id="categoryFilters"></div>
+
+      <div class="row g-4" id="courseGrid"></div>
+
+      <div class="glass empty-state text-center d-none" id="emptyState">
+        <i class="bi bi-search"></i>
+        <h5 class="mt-3">No courses match your filters</h5>
+        <p class="text-muted-c mb-3">Try another search or clear the filters.</p>
+        <button class="btn btn-ghost btn-sm" id="clearFilters" type="button">Clear filters</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Registration form ===== -->
+  <section class="pt-0 anchor" id="register">
+    <div class="container">
+      <div class="text-center mb-4">
+        <span class="eyebrow">Step 2 &middot; Register</span>
+        <h2 class="display-6 mt-2">Complete your <span class="grad-text">registration</span></h2>
+      </div>
+
+      <div class="col-lg-9 mx-auto">
+        <!-- Visual stepper -->
+        <ol class="stepper" id="stepper">
+          <li class="active" data-step="1"><span class="step-dot">1</span><span class="step-label">Your info</span></li>
+          <li data-step="2"><span class="step-dot">2</span><span class="step-label">Courses</span></li>
+          <li data-step="3"><span class="step-dot">3</span><span class="step-label">Payment</span></li>
+          <li data-step="4"><span class="step-dot">4</span><span class="step-label">Review</span></li>
+        </ol>
+
+        <form class="glass form-card" id="regForm" novalidate data-no-auto>
+          <!-- Step 1: personal info -->
+          <div class="form-step" data-step="1">
+            <h4 class="mb-1">Your info</h4>
+            <p class="text-muted-c small mb-4">We'll use this to send your schedule and receipt.</p>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="fullName" class="form-label">Full name</label>
+                <input type="text" class="form-control" id="fullName" autocomplete="name" placeholder="e.g. Rana Khoury">
+                <div class="invalid-feedback">Please enter at least 3 characters.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" autocomplete="email" placeholder="you@email.com">
+                <div class="invalid-feedback">Please enter a valid email address.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="phone" class="form-label">Phone</label>
+                <div class="input-group has-validation phone-group">
+                  <span class="input-group-text">+961</span>
+                  <input type="tel" class="form-control" id="phone" inputmode="numeric" maxlength="8" autocomplete="tel-national" placeholder="71 234 567">
+                  <div class="invalid-feedback">Enter a Lebanese number with 7 or 8 digits.</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" id="status">
+                  <option value="">Choose...</option>
+                  <option>University student</option>
+                  <option>School student</option>
+                  <option>Employed</option>
+                  <option>Freelancer</option>
+                  <option>Other</option>
+                </select>
+                <div class="invalid-feedback">Please choose your status.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: selected courses -->
+          <div class="form-step d-none" data-step="2">
+            <h4 class="mb-1">Your courses</h4>
+            <p class="text-muted-c small mb-4">Check your selection. Courses at the same day and time can't be taken together.</p>
+            <div id="stepCourses"></div>
+          </div>
+
+          <!-- Step 3: payment -->
+          <div class="form-step d-none" data-step="3">
+            <h4 class="mb-1">Payment</h4>
+            <p class="text-muted-c small mb-4">Choose how you'd like to pay.</p>
+            <div class="row g-3" id="paymentOptions">
+              <div class="col-6 col-md-3">
+                <button type="button" class="pay-card glass" data-method="Card"><i class="bi bi-credit-card-2-front"></i><span>Card</span></button>
+              </div>
+              <div class="col-6 col-md-3">
+                <button type="button" class="pay-card glass" data-method="Whish"><i class="bi bi-wallet2"></i><span>Whish</span></button>
+              </div>
+              <div class="col-6 col-md-3">
+                <button type="button" class="pay-card glass" data-method="OMT"><i class="bi bi-bank"></i><span>OMT</span></button>
+              </div>
+              <div class="col-6 col-md-3">
+                <button type="button" class="pay-card glass" data-method="Cash"><i class="bi bi-cash-coin"></i><span>Cash</span></button>
+              </div>
+            </div>
+            <p class="small text-danger mt-2 mb-0 d-none" id="payError"><i class="bi bi-exclamation-circle"></i> Please choose a payment method.</p>
+
+            <label for="promoInput" class="form-label mt-4">Promo code</label>
+            <div class="input-group promo-group">
+              <span class="input-group-text"><i class="bi bi-ticket-perforated"></i></span>
+              <input type="text" class="form-control" id="promoInput" placeholder="e.g. LEARN10" autocomplete="off">
+              <button class="btn btn-ghost" type="button" id="applyPromo">Apply</button>
+            </div>
+            <p class="small mt-2 mb-0" id="promoMsg"></p>
+          </div>
+
+          <!-- Step 4: review -->
+          <div class="form-step d-none" data-step="4">
+            <h4 class="mb-1">Review &amp; confirm</h4>
+            <p class="text-muted-c small mb-4">Make sure everything looks right.</p>
+            <div id="reviewBox"></div>
+            <div class="form-check mt-4">
+              <input class="form-check-input" type="checkbox" id="terms">
+              <label class="form-check-label" for="terms">I agree to the terms and the refund policy</label>
+              <div class="invalid-feedback">You must agree before registering.</div>
+            </div>
+          </div>
+
+          <!-- Navigation -->
+          <div class="d-flex justify-content-between gap-3 mt-4 pt-3 form-nav">
+            <button type="button" class="btn btn-ghost" id="backBtn" disabled><i class="bi bi-arrow-left"></i> Back</button>
+            <button type="button" class="btn btn-glow" id="nextBtn">Next <i class="bi bi-arrow-right"></i></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== My registrations ===== -->
+  <section class="pt-0 anchor" id="my-registrations">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-end flex-wrap gap-2 mb-4">
+        <div>
+          <span class="eyebrow">Saved on this device</span>
+          <h2 class="display-6 mt-2 mb-0">My registrations</h2>
+        </div>
+      </div>
+      <div class="glass p-2 p-md-3">
+        <div class="table-responsive">
+          <table class="table reg-table align-middle mb-0">
+            <thead>
+              <tr><th>ID</th><th>Student</th><th>Courses</th><th>Payment</th><th class="text-end">Total</th><th>Date</th><th></th></tr>
+            </thead>
+            <tbody id="regTableBody"></tbody>
+          </table>
+        </div>
+        <div class="text-center text-muted-c py-4 d-none" id="regEmpty">
+          <i class="bi bi-inbox fs-2"></i>
+          <p class="mb-0 mt-2">No registrations yet. Your confirmed registrations will appear here.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Selection cart (offcanvas) ===== -->
+  <div class="offcanvas offcanvas-end cart-panel" tabindex="-1" id="cartPanel" aria-labelledby="cartTitle">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="cartTitle"><i class="bi bi-bag"></i> My Selection</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column">
+      <div id="cartItems" class="flex-grow-1"></div>
+      <div class="cart-footer pt-3">
+        <div class="d-flex justify-content-between mb-3"><span class="text-muted-c">Subtotal</span><b id="cartSubtotal">$0.00</b></div>
+        <button type="button" class="btn btn-glow w-100" id="cartContinue" data-bs-dismiss="offcanvas" data-scroll-to="register">Continue to registration <i class="bi bi-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Success modal ===== -->
+  <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successTitle">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content p-3 text-center">
+        <div class="modal-body">
+          <div class="success-icon"><i class="bi bi-check-lg"></i></div>
+          <h4 class="mt-3" id="successTitle">You're registered!</h4>
+          <p class="text-muted-c mb-2">Your registration ID is</p>
+          <div class="reg-id grad-text" id="successId">LRN-0000</div>
+          <p class="small text-muted-c mt-3 mb-4" id="successText"></p>
+          <button type="button" class="btn btn-glow" data-bs-dismiss="modal" data-scroll-to="my-registrations">View my registrations</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toasts + confetti containers -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastArea"></div>
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <a class="navbar-brand fs-4 fw-bold text-white" href="index.html"><span class="logo-mark"><i class="bi bi-stars"></i></span>Learnova</a>
+          <p class="text-muted-c mt-3">Learn by building. Practical tech courses for the next generation of developers.</p>
+          <div class="social">
+            <a href="#"><i class="bi bi-instagram"></i></a>
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+            <a href="#"><i class="bi bi-youtube"></i></a>
+            <a href="#"><i class="bi bi-discord"></i></a>
+          </div>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h6>Explore</h6>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="index.html">Home</a></li>
+            <li class="mb-2"><a href="courses.html">Courses</a></li>
+            <li class="mb-2"><a href="registration.html">Register</a></li>
+            <li class="mb-2"><a href="about.html">About</a></li>
+            <li class="mb-2"><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h6>Tracks</h6>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="courses.html">Web</a></li>
+            <li class="mb-2"><a href="courses.html">Mobile</a></li>
+            <li class="mb-2"><a href="courses.html">Data</a></li>
+            <li class="mb-2"><a href="courses.html">Security</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4">
+          <h6>Stay in the loop</h6>
+          <p class="text-muted-c small">New courses and free lessons, once a month.</p>
+          <div class="input-group">
+            <input type="email" class="form-control" placeholder="you@email.com">
+            <button class="btn btn-glow"><i class="bi bi-send"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="big-word">LEARNOVA</div>
+      <div class="d-flex flex-column flex-md-row justify-content-between py-4 small text-muted-c gap-2" style="border-top: 1px solid var(--glass-border);">
+        <span>&copy; 2026 Learnova. All rights reserved.</span>
+        <span>Designed &amp; built by Mariam Nassrallah</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

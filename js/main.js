@@ -60,8 +60,9 @@ filterButtons.forEach((btn) => {
 });
 if (searchInput) searchInput.addEventListener("input", applyFilters);
 
-// 5. Forms (contact + enroll): show a confirmation instead of reloading the page
-document.querySelectorAll("form").forEach((form) => {
+// 5. Forms (contact + newsletter): show a confirmation instead of reloading the page
+//    Forms marked data-no-auto handle themselves (enroll modal, registration form)
+document.querySelectorAll("form:not([data-no-auto])").forEach((form) => {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     const btn = form.querySelector('[type="submit"]');
@@ -72,10 +73,7 @@ document.querySelectorAll("form").forEach((form) => {
       msg.style.color = "var(--cyan)";
       form.appendChild(msg);
     }
-    const isEnroll = !!form.closest("#enrollModal");
-    msg.innerHTML = isEnroll
-      ? '<i class="bi bi-check-circle-fill"></i> You\'re enrolled! Check your email for next steps.'
-      : '<i class="bi bi-check-circle-fill"></i> Thanks! Your message has been sent. We\'ll reply soon.';
+    msg.innerHTML = '<i class="bi bi-check-circle-fill"></i> Thanks! Your message has been sent. We\'ll reply soon.';
     form.reset();
     if (btn) btn.disabled = true;
     setTimeout(() => { if (btn) btn.disabled = false; }, 2500);
